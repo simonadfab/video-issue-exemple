@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Video issue exemple</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, viewport-fit=cover"
+    />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      video {
+        width: 100%;
+      }
+
+      button {
+        height: 40px;
+        width: 100px;
+        position: absolute;
+        top: 100px;
+        left: 5px;
+      }
+
+      button.reload {
+        top: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <video
+      muted="muted"
+      src="https://www.w3schools.com/html/mov_bbb.mp4"
+      autoplay
+      controls
+    ></video>
+    <button class="fullscreen">fullscreen</button>
+    <button class="reload">reload</button>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(e) {
+        var isFullscreen = false;
+        var video = document.querySelector("video");
+
+        var fullScreen = function fullScreen(elem, cancel) {
+          var func = "RequestFullScreen";
+          var elFunc = "requestFullScreen";
+          isFullscreen = !isFullscreen;
+          if (cancel) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.mozCancelFullScreen)
+              document.mozCancelFullScreen();
+            else if (document.webkitExitFullscreen)
+              document.webkitExitFullscreen();
+          } else {
+            try {
+              if (elem[elFunc]) elem[elFunc]();
+              else if (elem["ms" + func]) elem["ms" + func]();
+              else if (elem["moz" + func]) elem["moz" + func]();
+              else if (elem["webkit" + func]) var res = elem["webkit" + func]();
+            } catch (e) {
+              console.log("error fullscreen");
+            }
+          }
+        };
+
+        var buttonFullscreen = document.querySelector(".fullscreen");
+        buttonFullscreen.addEventListener("click", function() {
+          fullScreen(document.getElementsByTagName("BODY")[0], isFullscreen);
+        });
+
+        var buttonReload = document.querySelector(".reload");
+        buttonReload.addEventListener("click", function() {
+          video.load();
+        });
+      });
+    </script>
+  </body>
+</html>
